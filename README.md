@@ -2,28 +2,21 @@
     <h1>Dynamics of Zero-Shot Generalization</h1>
 </div>
 <p align="center">
-  <a target="_blank">
-    <img src="https://img.shields.io/badge/License-Apache_2.0-green.svg">
-  </a>
-  <a target="_blank">
-    <img alt="GitHub" src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat">
-  </a>
-</p>
-<p align="center">
   <a href="#Contributions">Contributions</a> •
   <a href="#Positioning">Positioning</a> •
   <a href="#Facilitation">Facilitation</a> •
   <a href="#Understanding">Understanding</a>
 </p>
 
+The repository contains the code for [The Right Time Matters: Data Arrangement Affects Zero-Shot Generalization in Instruction Tuning](https://arxiv.org/abs/2406.11721), aiming to provide the source code necessary to reproduce the experimental results.
 
-The repository contains the code for the paper, aiming to provide the source code necessary to reproduce the experimental results. Our key contributions are as follows:
+<div><a id="Contributions"></a></div>
 
 ## ✨ Contributions
 
-- We find that **zero-shot generalization occurs during the very early stage of instruction tuning**, despite the metrics chosen for measurement, while **loss serves as a reasonable and suitable metric to measure zero-shot generalization** due to its stability and fairness across datasets.
-- We identify two entry points to gain a deeper understanding of zero-shot generalization: **similarity** and **granularity**, confirming that encountering highly similar and fine-grained training data earlier during instruction tuning, without the constraints of defined ``tasks'', enables better generalization.
-- We propose the **Test-centric Multi-turn Arrangement (TMA)**, a more grounding training data arrangement method, and show that accessing high-similarity data during instruction tuning can facilitate continued learning and further loss reduction.
+- We show that zero-shot generalization occurs **at the very early stage** during instruction tuning, while **loss serves as a more stable and fair metric** compared to traditional ones.
+- We emphasize the critical role of timing in data exposure as a key perspective to gain a deeper understanding of zero-shot generalization, revealing that **encountering highly similar and fine-grained training data earlier** during instruction tuning enables better generalization.
+- We propose the **Test-centric Multi-turn Arrangement (TMA) framework**, and show that accessing high-similarity data during instruction tuning can facilitate continual learning and further loss reduction.
 
 <div><a id="Introduction"></a></div>
 
@@ -32,6 +25,13 @@ The repository contains the code for the paper, aiming to provide the source cod
 Understanding alignment techniques begins with comprehending zero-shot generalization brought by instruction tuning, but little of the mechanism has been understood. 
 
 Existing work has largely been confined to the task level, without considering that tasks are artificially defined and, to LLMs, merely consist of tokens and representations. This line of research has been limited to examining transfer between tasks from a task-pair perspective, with few studies focusing on understanding zero-shot generalization from the perspective of the data itself.
+
+<figure style="text-align: center;">
+    <div style="display: flex; justify-content: space-around;">
+        <img src="figures/intro.png" alt="Image 1" style="width:60%;"/>
+    </div>
+    <figcaption>Figure 1: Demonstrating how data arrangement affects zero-shot generalization. Different <b>shapes</b> represent distinct task types, while similar <b>colors</b> indicate semantic similarities between data points. Top and Bottom respectively represent traditional random data ordering and task-based continue fine-tuning, showing gradual loss reduction. But we (Middle) prioritize training on data points that are similar (color) to the test set and break free from task boundary (shape), thus enabling more rapid loss reduction.</figcaption>
+</figure>
 
 <div><a id="Positioning"></a></div>
 
@@ -83,11 +83,9 @@ After generating the answer for each instruction in test dataset, we then calcul
     </div>
     <figcaption><b>Figure 1: Average ROUGE-1, ROUGE-L, and Exact-Match scores (left), average RM scores (middle), and average loss scores (right) of checkpoints fine-tuned on NIV2 (left, middle, right), P3 (middle, right), and Flan-mini (middle, right), all evaluated on unseen tasks.</b></figcaption>
 </figure>
-
-
 <div><a id="Facilitation"></a></div>
 
-## 🎮 Facilitation
+## 🎮 Data Arrangement
 
 ### Effect of Training Data Permutations
 
@@ -133,7 +131,13 @@ bash scripts/eval_by_loss.sh
 </figure>
 
 
-
+<figure style="text-align: center;">
+    <div style="display: flex; justify-content: space-around;">
+        <img src="figures/exp_setting_1.png" alt="Image 1" style="width:50%;"/>
+        <img src="figures/exp_setting_2.png" alt="Image 2" style="width:50%;"/>
+    </div>
+    <figcaption>Figure 2: (<b>Left</b>) An overview of Round Robin, Random and Cluster data arrangements. Definitions of colors and shapes are consistent with those in Figure 1. (<b>Right</b>) An overview of NFT and FFT data arrangements.</figcaption>
+</figure>
 
 ### Effect of High-Similarity Data
 
@@ -210,14 +214,13 @@ bash scripts/eval_by_loss.sh
         <img src="figures/loss_sec3+4_figures/loss_merge_similarity.png" alt="Image 1" style="width:49%;"/>
         <img src="figures/loss_sec3+4_figures/loss_merge_granularity.png" alt="Image 2" style="width:49%;"/>
     </div>
-    <figcaption><b>Figure 3: The impact of the three similarity settings (NFT, FFT, and RT) on averaged test loss is depicted on the left, while the influence of different granularity settings on the loss is shown on the right.</b></figcaption>
+    <figcaption>Figure 3: The impact of the three similarity settings (NFT, FFT, and RT) on averaged test loss is depicted on the left, while the influence of different granularity settings on the loss is shown on the right.</figcaption>
 </figure>
+
 
 <div><a id="Understanding"></a></div>
 
-## 📊 Understanding
-
-### Test-centric Multi-turn Arrangement (TMA)
+## 📊 Test-centric Multi-turn Arrangement (TMA)
 
 <figure style="text-align: center;">
     <div style="display: flex; justify-content: space-around;">
@@ -269,10 +272,6 @@ bash scripts/eval_by_loss.sh
     </div>
     <figcaption><b>Figure 4: Averaged test loss of three similarity settings (NFT, FFT, and RT) under Test-centric Multi-turn Arrangement on Flan-mini (left), ShareGPT (middle), and NoRobots (right).</b></figcaption>
 </figure>
-
-
-
-
 ### Effect of Early-Selected Sub-Training Set
 
 #### Settings
@@ -298,5 +297,13 @@ The usage scripts are the same as above, just some modification in the hyper-par
 Please cite us if it is useful in your work:
 
 ```
-TODO
+@misc{he2024zeroshotgeneralizationinstructiontuning,
+      title={Zero-Shot Generalization during Instruction Tuning: Insights from Similarity and Granularity}, 
+      author={Bingxiang He and Ning Ding and Cheng Qian and Jia Deng and Ganqu Cui and Lifan Yuan and Huan-ang Gao and Huimin Chen and Zhiyuan Liu and Maosong Sun},
+      year={2024},
+      eprint={2406.11721},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2406.11721}, 
+}
 ```
