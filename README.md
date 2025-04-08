@@ -7,7 +7,7 @@
   <a href="#Facilitation">Data Arrangement</a> •
   <a href="#Understanding">TMA Framework</a>
 </p>
-The repository contains the code for [The Right Time Matters: Data Arrangement Affects Zero-Shot Generalization in Instruction Tuning](https://arxiv.org/abs/2406.11721), aiming to provide the source code necessary to reproduce the experimental results.
+The repository contains the code for The Right Time Matters: Data Arrangement Affects Zero-Shot Generalization in Instruction Tuning, aiming to provide the source code necessary to reproduce the experimental results. [**[Paper]**](https://arxiv.org/abs/2406.11721)
 
 <div><a id="Contributions"></a></div>
 
@@ -101,6 +101,14 @@ We first generate three permutations of training data using the following script
 python data/split_cluster.py
 ```
 
+<figure style="text-align: center;">
+    <div style="display: flex; justify-content: space-around;">
+        <img src="figures/exp_setting_1.png" alt="Image 1" style="width:49%;"/>
+        <img src="figures/exp_setting_2.png" alt="Image 2" style="width:49%;"/>
+    </div>
+    <figcaption>Figure 2: (<b>Left</b>) An overview of Round Robin, Random and Cluster data arrangements. Definitions of colors and shapes are consistent with those in Figure 1. (<b>Right</b>) An overview of NFT and FFT data arrangements.</figcaption>
+</figure>
+
 It will generate the three settings mentioned in the paper:
 
 - **Round-robin**: We employ round-robin scheduling to disperse training tasks as much as possible. Consequently, the model iterates over one data point from each task every 100 training steps.
@@ -129,17 +137,6 @@ bash scripts/eval_by_loss.sh
     </div>
     <figcaption><b>Figure 2: Sudden decrease in the average loss under cluster scheduling for the three tasks at steps 400 (coqa:1.0.0), 450 (task851), and 150 (task900), respectively.</b></figcaption>
 </figure>
-
-
-<figure style="text-align: center;">
-    <div style="display: flex; justify-content: space-around;">
-        <img src="figures/exp_setting_1.png" alt="Image 1" style="width:49%;"/>
-        <img src="figures/exp_setting_2.png" alt="Image 2" style="width:49%;"/>
-    </div>
-    <figcaption>Figure 2: (<b>Left</b>) An overview of Round Robin, Random and Cluster data arrangements. Definitions of colors and shapes are consistent with those in Figure 1. (<b>Right</b>) An overview of NFT and FFT data arrangements.</figcaption>
-</figure>
-
-
 ### Effect of High-Similarity Data
 
 #### Settings
