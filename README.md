@@ -7,7 +7,7 @@
   <a href="#Facilitation">Data Arrangement</a> •
   <a href="#Understanding">TMA Framework</a>
 </p>
-The repository contains the code for The Right Time Matters: Data Arrangement Affects Zero-Shot Generalization in Instruction Tuning, aiming to provide the source code necessary to reproduce the experimental results. [**[Paper]**](https://arxiv.org/abs/2406.11721)
+The repository contains the code for the paper "The Right Time Matters: Data Arrangement Affects Zero-Shot Generalization in Instruction Tuning", aiming to provide the source code necessary to reproduce the experimental results. **[Paper]:** https://arxiv.org/abs/2406.11721
 
 <div><a id="Contributions"></a></div>
 
