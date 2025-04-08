@@ -4,10 +4,9 @@
 <p align="center">
   <a href="#Contributions">Contributions</a> •
   <a href="#Positioning">Positioning</a> •
-  <a href="#Facilitation">Facilitation</a> •
-  <a href="#Understanding">Understanding</a>
+  <a href="#Facilitation">Data Arrangement</a> •
+  <a href="#Understanding">TMA Framework</a>
 </p>
-
 The repository contains the code for [The Right Time Matters: Data Arrangement Affects Zero-Shot Generalization in Instruction Tuning](https://arxiv.org/abs/2406.11721), aiming to provide the source code necessary to reproduce the experimental results.
 
 <div><a id="Contributions"></a></div>
@@ -32,6 +31,7 @@ Existing work has largely been confined to the task level, without considering t
     </div>
     <figcaption>Figure 1: Demonstrating how data arrangement affects zero-shot generalization. Different <b>shapes</b> represent distinct task types, while similar <b>colors</b> indicate semantic similarities between data points. Top and Bottom respectively represent traditional random data ordering and task-based continue fine-tuning, showing gradual loss reduction. But we (Middle) prioritize training on data points that are similar (color) to the test set and break free from task boundary (shape), thus enabling more rapid loss reduction.</figcaption>
 </figure>
+
 
 <div><a id="Positioning"></a></div>
 
@@ -133,25 +133,22 @@ bash scripts/eval_by_loss.sh
 
 <figure style="text-align: center;">
     <div style="display: flex; justify-content: space-around;">
-        <img src="figures/exp_setting_1.png" alt="Image 1" style="width:50%;"/>
-        <img src="figures/exp_setting_2.png" alt="Image 2" style="width:50%;"/>
+        <img src="figures/exp_setting_1.png" alt="Image 1" style="width:49%;"/>
+        <img src="figures/exp_setting_2.png" alt="Image 2" style="width:49%;"/>
     </div>
     <figcaption>Figure 2: (<b>Left</b>) An overview of Round Robin, Random and Cluster data arrangements. Definitions of colors and shapes are consistent with those in Figure 1. (<b>Right</b>) An overview of NFT and FFT data arrangements.</figcaption>
 </figure>
+
 
 ### Effect of High-Similarity Data
 
 #### Settings
 
-We utilize the Flan-mini dataset and randomly sample up to 20 instances for each training task. Each test task consists of at most five test data points to form a test set. We permute the training data based on the **Weighted Similarity Distance (WSD)** measure:
-$$
-WSD_i = w_\text{avg}AD_i + w_\text{min}MD_i
-$$
-We examine three training permutations: Nearest First Training (NFT), Farthest First Training (FFT), and Random Training (RT)
+We utilize the Flan-mini dataset and randomly sample up to 20 instances for each training task. Each test task consists of at most five test data points to form a test set. We permute the training data based on the **Weighted Similarity Distance (WSD)** measure $WSD_i = w_\text{avg}AD_i + w_\text{min}MD_i$. We examine three training permutations: Nearest First Training (**NFT**), Farthest First Training (**FFT**), and Random Training (**RT**)
 
 - **NFT**:  Given a certain similarity distance measure such as Weighted Similarity Distance (WSD), we compute the similarity distance from each training data point to the test set based on this measure, and then permute the training data points from nearest to farthest.
 - **FFT**: Given a certain similarity distance measure such as Weighted Similarity Distance (WSD), we calculate the similarity distance from each training data point to the test set based on this measure, and then permute the training data points from farthest to nearest.
-- **Random**: As a baseline, we randomly shuffle all training data.
+- **RT**: As a baseline, we randomly shuffle all training data.
 
 #### Usage
 
@@ -216,8 +213,6 @@ bash scripts/eval_by_loss.sh
     </div>
     <figcaption>Figure 3: The impact of the three similarity settings (NFT, FFT, and RT) on averaged test loss is depicted on the left, while the influence of different granularity settings on the loss is shown on the right.</figcaption>
 </figure>
-
-
 <div><a id="Understanding"></a></div>
 
 ## 📊 Test-centric Multi-turn Arrangement (TMA)
@@ -297,10 +292,10 @@ The usage scripts are the same as above, just some modification in the hyper-par
 Please cite us if it is useful in your work:
 
 ```
-@misc{he2024zeroshotgeneralizationinstructiontuning,
-      title={Zero-Shot Generalization during Instruction Tuning: Insights from Similarity and Granularity}, 
-      author={Bingxiang He and Ning Ding and Cheng Qian and Jia Deng and Ganqu Cui and Lifan Yuan and Huan-ang Gao and Huimin Chen and Zhiyuan Liu and Maosong Sun},
-      year={2024},
+@misc{he2025righttimemattersdata,
+      title={The Right Time Matters: Data Arrangement Affects Zero-Shot Generalization in Instruction Tuning}, 
+      author={Bingxiang He and Ning Ding and Cheng Qian and Jia Deng and Ganqu Cui and Lifan Yuan and Haiwen Hong and Huan-ang Gao and Longtao Huang and Hui Xue and Huimin Chen and Zhiyuan Liu and Maosong Sun},
+      year={2025},
       eprint={2406.11721},
       archivePrefix={arXiv},
       primaryClass={cs.CL},
